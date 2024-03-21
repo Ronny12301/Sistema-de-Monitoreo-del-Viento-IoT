@@ -10,9 +10,7 @@ app.listen(
 );
 
 app.get('/', async (req, res) => {
-
     res.send( await readFile('./views/index.html', 'utf8'));
-    
 });
 
 
@@ -21,9 +19,9 @@ client.on("message", (topic, message) => {
     // message is Buffer
     mqttMessage = message.toString();
     console.log(message.toString());
-  });
+});
+
 
 app.get('/data', (req, res) => {
-    // Example data
     res.send(mqttMessage);
 });

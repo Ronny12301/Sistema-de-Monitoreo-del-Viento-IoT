@@ -6,7 +6,8 @@
     <title>Document</title>
 </head>
 <body>
-    <h1>Hola mundo</h1>
+    <h1>Datos del anémometro:</h1>
+    <h2 id="string">---</h2>
 
 
     <script>
@@ -14,12 +15,12 @@
             fetch('/data')
                 .then(response => response.text())
                 .then(message => {
-                    document.querySelector('h1').textContent = message;
+                    document.querySelector('#string').textContent = message;
                 });
         }
     
-        // Update the message every 5 seconds
-        setInterval(updateMessage, 1000);
+        // Update the message every half second
+        setInterval(updateMessage, 500);
     </script>
 </body>
 </html>
