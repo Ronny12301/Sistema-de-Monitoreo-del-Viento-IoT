@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Hola mundo</h1>
+
+
+    <script>
+        function updateMessage() {
+            fetch('/data')
+                .then(response => response.text())
+                .then(message => {
+                    document.querySelector('h1').textContent = message;
+                });
+        }
+    
+        // Update the message every 5 seconds
+        setInterval(updateMessage, 1000);
+    </script>
+</body>
+</html>
