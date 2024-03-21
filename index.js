@@ -1,5 +1,8 @@
 const { readFile } = require('fs').promises;
-const app = require('express')();
+const express = require('express');
+const app = express();
+const path = require('path');
+
 const PORT = 8080;
 
 const client = require('./mqtt'); // Adjust the path as necessary
@@ -12,6 +15,8 @@ app.listen(
 app.get('/', async (req, res) => {
     res.send( await readFile('./views/index.html', 'utf8'));
 });
+
+app.use(express.static(path.join(__dirname, 'views')));
 
 
 let mqttMessage;
