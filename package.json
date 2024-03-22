@@ -13,5 +13,8 @@
   "dependencies": {
     "express": "^5.0.0-beta.2",
     "mqtt": "^5.5.0"
+  },
+  "devDependencies": {
+    "tailwindcss": "^3.4.1"
   }
 }

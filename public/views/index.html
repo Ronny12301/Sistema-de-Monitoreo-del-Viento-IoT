@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html class="" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <link href="../css/output.css" rel="stylesheet">
+    <script defer src="./views/components/Navbar.js"></script>
+    <script defer src="./views/components/Compass.js"></script>
+</head>
+
+<body class="bg-slate-50 dark:bg-gray-900 dark:text-white">
+    <my-navbar>Datos del anémometro</my-navbar>  
+    
+    <div class="mx-10 mt-6 flex flex-col space-y-6 sm:mx-32
+        md:mx-5 md:space-y-0 md:grid md:grid-cols-5 md:grid-flow-col md:gap-4 
+        text-center md:mt-4 lg:mt-6"
+    >
+
+        <div class="bg-blue-50 rounded-lg shadow dark:bg-gray-600">
+            <p class="bg-blue-300 dark:bg-slate-800 rounded-t-lg font-bold" for="node-address">Nodo identificador</p>
+            <p class="rounded-b-lg" id="node-address"></p>
+        </div> 
+
+        <div class="bg-blue-50 rounded-lg shadow dark:bg-gray-600">
+            <p class="bg-blue-300 dark:bg-slate-800 rounded-t-lg font-bold" for="wind-direction">Dirección del viento</p>
+            <p class="rounded-b-lg" id="wind-direction"></p>
+        </div>
+
+        <div class="bg-blue-50 rounded-lg shadow dark:bg-gray-600">
+            <p class="bg-blue-300 dark:bg-slate-800 rounded-t-lg font-bold" for="wind-speed">Velocidad del viento</p>
+            <p class="rounded-b-lg" id="wind-speed"></p>
+        </div>
+
+        <div class="bg-blue-50 rounded-lg shadow dark:bg-gray-600">
+            <p class="bg-blue-300 dark:bg-slate-800 rounded-t-lg font-bold" for="status">Estado</p>
+            <p class="rounded-b-lg" id="status"></p>
+        </div>
+
+        <div class="bg-blue-50 rounded-lg shadow dark:bg-gray-600">
+            <p class="bg-blue-300 dark:bg-slate-800 rounded-t-lg font-bold" for="checksum">Suma de comprobación</p>
+            <p class="rounded-b-lg" id="checksum"></p>
+        </div>
+    </div>
+
+    <div class="absolute bottom-56 h-1/3 end-32">
+        <my-compass></my-compass>
+    </div>
+
+    <div class="absolute bottom-4 start-2 end-2 py-3 shadow bg-sky-100 dark:bg-gray-600
+        mx-8 sm:mx-36 md:mx-[30rem] lg:mx-[45rem] rounded-lg"
+    >
+        <p id="raw-string" class="text-2xl text-center">
+            ---
+        </p>
+    </div>
+
+    <script src="../js/dark-mode.js"></script>
+    <script src="../js/update-message.js"></script>
+</body>
+</html>
