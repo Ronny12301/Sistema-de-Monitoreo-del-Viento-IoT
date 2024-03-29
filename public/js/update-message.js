@@ -18,20 +18,33 @@ const STATUS = {
     "V": "Datos inválidos",     // NMEA
 }
 
+function setStatusColour() {
+    if (windData.status === "00" || windData.status === "A") {
+        document.querySelector('#status').classList.add('text-green-600','dark:text-green-400');
+        document.querySelector('#status').classList.remove('text-red-600','dark:text-red-400');
+    } 
+    else {
+        document.querySelector('#status').classList.add('text-red-600','dark:text-red-400');
+        document.querySelector('#status').classList.remove('text-green-600','dark:text-green-400');
+    }
+}
+
 
 function updateMessage() {
     fetch('/data')
-        .then(response => response.text())
+        .then(response => response.json())
         .then(message => {
-            console.log(splitString(message));
-            windData = splitString(message);
-            document.querySelector('#raw-string').textContent = message;
+            windData = splitString(message.string);
+            document.querySelector('#raw-string').textContent = message.string;
 
             document.querySelector('#node-address').textContent = windData.nodeAddress;
-            document.querySelector('#wind-direction').textContent = windData.windDirection;
-            document.querySelector('#wind-speed').textContent = `${windData.windSpeed} ${UNITS[windData.units]}`;
+            document.querySelector('#wind-direction').textContent = windData.windDirection + "°";
+            document.querySelector('#wind-speed').textContent = `${parseFloat(windData.windSpeed)} ${UNITS[windData.units]}`;
             document.querySelector('#status').textContent = windData.status;
             document.querySelector('#checksum').textContent = windData.checksum;
+
+            document.getElementById("status").setAttribute("data-tooltip", STATUS[windData.status] ?? "Indefinido");
+            setStatusColour();
         });
 }
 // Update the message every half seconds

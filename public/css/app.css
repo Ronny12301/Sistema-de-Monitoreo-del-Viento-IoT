@@ -1,3 +1,13 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
+@layer components {
+    [data-tooltip]:hover::after {
+        content: attr(data-tooltip);
+        @apply block absolute;
+        @apply shadow rounded-xl bg-slate-300 bg-opacity-50 dark:bg-gray-400 dark:bg-opacity-30 dark:shadow-slate-600;
+        @apply px-5 left-[69%] translate-x-[-50%]        /* Nice */
+    }
+}

@@ -1,13 +1,13 @@
 class Navbar extends HTMLElement {
 
-    barStyle = "start-0 top-0 end-0 py-2 mb-3";
+    barStyle = "start-0 top-0 end-0 py-3 mb-3";
 
     btnDarkMode = `
-    <button onclick="toggleDarkMode()" id="dark-mode" class="absolute end-4">
-        <div class="size-9 fill-black dark:fill-white">
-            <?xml version="1.0" ?><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title/><path d="M20.21,15.32A8.56,8.56,0,1,1,11.29,3.5a.5.5,0,0,1,.51.28.49.49,0,0,1-.09.57A6.46,6.46,0,0,0,9.8,9a6.57,6.57,0,0,0,9.71,5.72.52.52,0,0,1,.58.07A.52.52,0,0,1,20.21,15.32Z"/></svg>
-        </div>
-    </button>
+        <button onclick="toggleDarkMode()" id="dark-mode" class="absolute top-2 end-2 sm:end-4">
+            <div class="size-9 fill-black dark:fill-white">
+                <?xml version="1.0" ?><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title/><path d="M20.21,15.32A8.56,8.56,0,1,1,11.29,3.5a.5.5,0,0,1,.51.28.49.49,0,0,1-.09.57A6.46,6.46,0,0,0,9.8,9a6.57,6.57,0,0,0,9.71,5.72.52.52,0,0,1,.58.07A.52.52,0,0,1,20.21,15.32Z"/></svg>
+            </div>
+        </button>
     `
 
     svg = `

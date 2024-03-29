@@ -3,7 +3,7 @@ const express = require('express');
 const app = express();
 const path = require('path');
 
-const client = require('./mqtt'); // Adjust the path as necessary
+const client = require('./mqtt');
 
 const PORT = 8080;
 
@@ -21,9 +21,15 @@ app.get('/', async (req, res) => {
 
 let mqttMessage;
 client.on("message", (topic, message) => {
-    // message is Buffer
-    mqttMessage = message.toString();
-    console.log(mqttMessage);
+
+    try {
+        // message is Buffer
+        mqttMessage = JSON.parse(message.toString()); 
+        console.log(mqttMessage);
+    }
+    catch (e) { 
+        console.error(e);
+    }
 });
 
 
