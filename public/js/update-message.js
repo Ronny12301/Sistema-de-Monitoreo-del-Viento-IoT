@@ -3,7 +3,7 @@ const UNITS = {
     N: "Nudos",
     P: "mph",
     K: "km/h",
-    F: "ft/m",
+    F: "ft/min",
 }
 
 const STATUS = {

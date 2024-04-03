@@ -57,24 +57,24 @@ class Speedometer extends HTMLElement {
                     <div class="rpmSlice"></div>
         
         
-                    <div class="rpmSpeed">0</div>
-                    <div class="rpmSpeed">5</div>
-                    <div class="rpmSpeed">10</div>
-                    <div class="rpmSpeed">15</div>
-                    <div class="rpmSpeed">20</div>
-                    <div class="rpmSpeed">25</div>
-                    <div class="rpmSpeed">30</div>
-                    <div class="rpmSpeed">35</div>
-                    <div class="rpmSpeed">40</div>
-                    <div class="rpmSpeed">45</div>
-                    <div class="rpmSpeed">50</div>
-                    <div class="rpmSpeed">55</div>
-                    <div class="rpmSpeed">60</div>
-                    <div class="rpmSpeed">65</div>
-                    <div class="rpmSpeed">70</div>
-                    <div class="rpmSpeed">75</div>
-                    <div class="rpmSpeed">80</div>
-                    <div class="rpmSpeed">m/s</div>
+                    <div class="rpmSpeed" id="speed-1">0</div>
+                    <div class="rpmSpeed" id="speed-2">5</div>
+                    <div class="rpmSpeed" id="speed-3">10</div>
+                    <div class="rpmSpeed" id="speed-4">15</div>
+                    <div class="rpmSpeed" id="speed-5">20</div>
+                    <div class="rpmSpeed" id="speed-6">25</div>
+                    <div class="rpmSpeed" id="speed-7">30</div>
+                    <div class="rpmSpeed" id="speed-8">35</div>
+                    <div class="rpmSpeed" id="speed-9">40</div>
+                    <div class="rpmSpeed" id="speed-10">45</div>
+                    <div class="rpmSpeed" id="speed-11">50</div>
+                    <div class="rpmSpeed" id="speed-12">55</div>
+                    <div class="rpmSpeed" id="speed-13">60</div>
+                    <div class="rpmSpeed" id="speed-14">65</div>
+                    <div class="rpmSpeed" id="speed-15">70</div>
+                    <div class="rpmSpeed" id="speed-16">75</div>
+                    <div class="rpmSpeed" id="speed-17">80</div>
+                    <div class="rpmSpeed" id="speed-units">m/s</div>
         
                     <div id="sui"></div>
                     <div id="SUICIRCLE" class="suiCircle"></div>
@@ -593,7 +593,7 @@ class Speedometer extends HTMLElement {
         
         .gauge .rpmSpeed {
             font-family: 'Concert One', cursive;
-            font-size: .65em;
+            font-size: .6em;
             line-height: 6px;
             text-align: center;
             display: block;
@@ -718,21 +718,46 @@ class Speedometer extends HTMLElement {
     `;
 }
 
-function setDirection() {
-    let container = document.querySelector('#sui');
-
-    // let direction = parseInt(document.getElementById("wind-direction").textContent);
-    // let currentAngle = parseInt(getComputedStyle(container).getPropertyValue('--needle-degree').replace('deg','')) + 40;
-    // console.log(currentAngle);
-
-    // let difference = Math.abs(currentAngle - direction);
-
-    // let finalAngle = difference > 180 ? direction + 360: direction;
-    
-    // container.style.setProperty('--needle-degree', `${finalAngle-40}deg`);
+const MAX_SPEED = {
+    "m/s": 80,
+    "Nudos": 156,
+    "mph": 179,
+    "km/h": 288,
+    "ft/min": 15748,
 }
 
-setInterval(setDirection, 500);
+function setSpeedIntervals(maxSpeed) {
+    const increment = maxSpeed/16;
+
+    for (let i = 0; i < 17; i++)  { 
+        if (!isNaN(increment)) {
+            document.querySelector(`#speed-${i+1}`).textContent = Math.round(increment*i);
+        }
+    }
+}
+
+function updateSpeedometer() {
+    const container = document.querySelector('#sui');
+
+    const speedArray = document.getElementById("wind-speed").textContent.split(' ');
+
+    const speed = speedArray[0];
+    const units = speedArray[1];
+
+    document.querySelector('#speed-units').textContent = units;
+    document.querySelector('.speedplus').textContent = speed;
+
+    const speedPorcentage = 240/MAX_SPEED[units]
+    const needleDegree = speedPorcentage * speed
+
+    console.log(speed);
+
+    setSpeedIntervals(MAX_SPEED[units]);
+    
+    container.style.setProperty('--needle-degree', `${needleDegree-120}deg`);
+}
+
+setInterval(updateSpeedometer, 500);
 
 
 customElements.define("my-speedometer", Speedometer);

@@ -220,15 +220,14 @@ class Compass extends HTMLElement {
 
 
 function setDirection() {
-    let container = document.querySelector('.dip-needle');
+    const container = document.querySelector('.dip-needle');
 
-    let direction = parseInt(document.getElementById("wind-direction").textContent);
-    let currentAngle = parseInt(getComputedStyle(container).getPropertyValue('--needle-degree').replace('deg','')) + 40;
-    console.log(currentAngle);
+    const direction = parseInt(document.getElementById("wind-direction").textContent);
+    const currentAngle = parseInt(getComputedStyle(container).getPropertyValue('--needle-degree').replace('deg','')) + 40;
 
-    let difference = Math.abs(currentAngle - direction);
+    const difference = Math.abs(currentAngle - direction);
 
-    let finalAngle = difference > 180 ? direction + 360: direction;
+    const finalAngle = difference > 180 ? direction + 360: direction;
     
     container.style.setProperty('--needle-degree', `${finalAngle-40}deg`);
 }
