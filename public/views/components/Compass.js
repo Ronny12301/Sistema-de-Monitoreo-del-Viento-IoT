@@ -8,7 +8,6 @@ class Compass extends HTMLElement {
             width: 260px;
             height: 260px;
             position: relative;
-            margin: 50px auto;
             border-radius: 50%;
             box-shadow: 0 4px 6px 1.6px #999;
             -webkit-animation: sliding 0.9s ease-in-out;
@@ -183,7 +182,7 @@ class Compass extends HTMLElement {
         this.innerHTML = `
             <style>${this.css}</style>
             
-            <div class="compass text-black 
+            <div class="compass text-black
                 bg-[linear-gradient(#ddd,#ccc_20%,#ddd)] border-[#ddd] 
                 dark:bg-[linear-gradient(#888,#999_20%,#888)] dark:border-[#888]"
             >

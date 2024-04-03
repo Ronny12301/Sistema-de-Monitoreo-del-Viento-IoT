@@ -6,8 +6,8 @@
 @layer components {
     [data-tooltip]:hover::after {
         content: attr(data-tooltip);
-        @apply block absolute;
-        @apply shadow rounded-xl bg-slate-300 bg-opacity-50 dark:bg-gray-400 dark:bg-opacity-30 dark:shadow-slate-600;
-        @apply px-5 left-[69%] translate-x-[-50%]        /* Nice */
+        @apply block absolute
+            shadow rounded-xl bg-slate-300 bg-opacity-50 dark:bg-gray-400 dark:bg-opacity-30 dark:shadow-slate-600
+            px-5 left-[50%] translate-x-[-50%] md:left-[69%];       /* Nice */
     }
 }

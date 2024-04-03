@@ -8,6 +8,7 @@
     <link href="../css/output.css" rel="stylesheet">
     <script defer src="./views/components/Navbar.js"></script>
     <script defer src="./views/components/Compass.js"></script>
+    <script defer src="./views/components/Speedometer.js"></script>
 </head>
 
 <body class="bg-slate-50 dark:bg-gray-900 dark:text-white">
@@ -52,11 +53,12 @@
         </div>
     </div>
 
-    <div class="flex justify-center md:absolute md:bottom-2 md:h-2/3 md:end-32">
-        <my-compass></my-compass>
+    <div class="flex bellow-sm:flex-col justify-center items-center md:absolute md:bottom-14 md:h-2/3 md:end-32">
+        <my-speedometer class="my-[38px] mx-5"></my-speedometer>
+        <my-compass class="my-[50px] mx-5"></my-compass>
     </div>
 
-    <div class="smvert:absolute bottom-0 mb-4 start-2 end-2 py-3 shadow bg-sky-100 dark:bg-gray-600
+    <div class="md:absolute bottom-0 mb-4 start-2 end-2 py-3 shadow bg-sky-100 dark:bg-gray-600
         mx-8 sm:mx-36 md:mx-[30rem] lg:mx-[45rem] rounded-lg"
     >
         <p id="raw-string" class="text-2xl text-center">
@@ -64,7 +66,8 @@
         </p>
     </div>
 
-    <script src="../js/dark-mode.js"></script>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script src="../js/update-message.js"></script>
+    <script src="../js/dark-mode.js"></script>
 </body>
 </html>
