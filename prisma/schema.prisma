@@ -1,0 +1,23 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model messages {
+  id_message     BigInt   @id @default(autoincrement()) @db.UnsignedBigInt
+  email          String   @db.VarChar(255)
+  stx            String   @default("␂") @db.Char(1)
+  node_address   String   @default("Q") @db.Char(1)
+  wind_direction Int      @db.UnsignedSmallInt
+  wind_speed     Float
+  units          String   @default("m/s") @db.VarChar(10)
+  status         String   @default("00") @db.Char(2)
+  etx            String   @default("␃") @db.Char(1)
+  checksum       String   @default("00") @db.Char(2)
+  raw_string     String   @db.VarChar(40)
+  created_at     DateTime @default(now()) @db.Timestamp(0)
+}

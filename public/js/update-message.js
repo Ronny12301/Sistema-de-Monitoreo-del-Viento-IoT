@@ -14,8 +14,8 @@ const STATUS = {
     "08": "Error de NVM",
     "09": "Error de ROM",
     "10": "Ganancia del sistema al máximo",
-    "A": "Datos válidos",       // NMEA
-    "V": "Datos inválidos",     // NMEA
+    // "A": "Datos válidos",       // NMEA
+    // "V": "Datos inválidos",     // NMEA
 }
 
 function setStatusColour() {
