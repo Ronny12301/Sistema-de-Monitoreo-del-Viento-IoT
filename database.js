@@ -74,7 +74,7 @@ function splitString(rawData) {
 
 function bigIntReplacer(key, value) {
     if (typeof value === "bigint") {
-       return value.toString(); // Convert BigInt to a string representation
+       return parseInt(value.toString()); // Convert BigInt to int
     }
     return value;
    }

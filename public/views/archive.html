@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registros</title>
+
+    <link href="../css/output.css" rel="stylesheet">
+    <script defer src="./views/components/Navbar.js"></script>
+</head>
+
+<body class="bg-slate-50 dark:bg-gray-900 dark:text-white">
+    <my-navbar>Registro de datos</my-navbar>
+
+    <div id='calendar'></div>
+
+
+    <script src="../js/get-registry.js"></script>
+    <script src="../js/dark-mode.js"></script>
+    <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/index.global.min.js'></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', async function () {
+            let events = await getWindRegistry();
+            var calendarEl = document.getElementById('calendar');
+            var calendar = new FullCalendar.Calendar(calendarEl, {
+                initialView: 'listYear',
+                locale: "es",
+                buttonText: {
+                    today: 'Hoy',
+                    month: 'Mes',
+                    week: 'Semana',
+                    day: 'Dia',
+                    list: 'Lista'
+                },
+                headerToolbar: {
+                    left: 'listYear,timeGridWeek,timeGridDay',
+                    center: 'title',
+                    right: 'prev,next today',
+                },
+                events: events,
+            });
+            calendar.render();
+        });
+    </script>
+</body>
+
+</html>

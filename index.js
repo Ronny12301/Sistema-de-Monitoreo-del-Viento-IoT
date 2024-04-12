@@ -18,6 +18,10 @@ app.get('/', async (req, res) => {
     res.send( await readFile('./public/views/index.html', 'utf8'));
 });
 
+app.get('/archive', async (req, res) => {
+    res.send( await readFile('./public/views/archive.html', 'utf8'));
+});
+
 
 
 let mqttMessage;

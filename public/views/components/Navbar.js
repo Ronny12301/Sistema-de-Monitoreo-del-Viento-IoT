@@ -28,9 +28,7 @@ class Navbar extends HTMLElement {
             <h1 class="flex justify-center text-2xl sm:text-3xl font-bold">
                 ${this.innerText}
             </h1>
-        </div>
-        
-        <script></script>
+        </div>        
         `;
     };
 }

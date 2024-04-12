@@ -9,49 +9,13 @@
     <script defer src="./views/components/Navbar.js"></script>
     <script defer src="./views/components/Compass.js"></script>
     <script defer src="./views/components/Speedometer.js"></script>
+    <script defer src="./views/components/WindDisplayVariables.js"></script>
 </head>
 
 <body class="bg-slate-50 dark:bg-gray-900 dark:text-white">
     <my-navbar>Datos del anémometro</my-navbar>  
     
-    <div class="mx-10 mt-6 flex flex-col space-y-6 sm:mx-32
-        md:mx-9 md:space-y-0 md:grid md:grid-cols-5 md:grid-flow-col md:gap-4 
-        text-center md:mt-4 lg:mt-6"
-    >
-
-        <div class="bg-blue-50 rounded-lg shadow dark:bg-gray-600">
-            <p class="bg-blue-300 dark:bg-slate-800 rounded-t-lg font-bold">Nodo identificador</p>
-            <p class="rounded-b-lg" id="node-address"></p>
-        </div> 
-
-        <div class="bg-blue-50 rounded-lg shadow dark:bg-gray-600">
-            <p class="bg-blue-300 dark:bg-slate-800 rounded-t-lg font-bold">
-                Dirección del viento
-            </p>
-            <p class="rounded-b-lg" id="wind-direction"></p>
-        </div>
-
-        <div class="bg-blue-50 rounded-lg shadow dark:bg-gray-600">
-            <p class="bg-blue-300 dark:bg-slate-800 rounded-t-lg font-bold">
-                Velocidad del viento
-            </p>
-            <p class="rounded-b-lg" id="wind-speed"></p>
-        </div>
-
-        <div class="bg-blue-50 rounded-lg shadow dark:bg-gray-600">
-            <p class="bg-blue-300 dark:bg-slate-800 rounded-t-lg font-bold">
-                Estado
-            </p>
-            <div class="rounded-b-lg font-bold" id="status" data-tooltip="Status"></div>
-        </div>
-
-        <div class="bg-blue-50 rounded-lg shadow dark:bg-gray-600">
-            <p class="bg-blue-300 dark:bg-slate-800 rounded-t-lg font-bold">
-                Suma de comprobación
-            </p>
-            <p class="rounded-b-lg" id="checksum"></p>
-        </div>
-    </div>
+    <display-variables></display-variables>
 
     <div class="flex bellow-sm:flex-col justify-center items-center md:absolute md:bottom-14 md:h-2/3 md:end-32">
         <my-speedometer class="my-[38px] mx-5"></my-speedometer>
@@ -66,17 +30,19 @@
         </p>
     </div>
 
-    <div class="md:absolute bottom-0">
-        <a  href="#" 
-            class="bg-green-500 px-7 py-2 rounded-xl shadow 
-                text-white text-lg font-medium
-                hover:bg-green-600 active:bg-green-700"
+    <div class="md:absolute bottom-1/2 md:left-[13%]">
+        <a  href="/archive" 
+            class="md:px-[200%] py-3 rounded-xl shadow 
+                text-white text-lg font-medium text-center
+                bg-green-500 hover:bg-green-600 active:bg-green-700
+                dark:bg-green-600 dark:hover:bg-green-700 dark:active:bg-green-800
+                bellow-md:absolute bellow-md:left-0 bellow-md:right-0
+                bellow-sm:mx-8 bellow-md:sm:mx-36"
         >
             Registros
         </a>
     </div>
 
-    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script src="../js/update-message.js"></script>
     <script src="../js/dark-mode.js"></script>
 </body>
