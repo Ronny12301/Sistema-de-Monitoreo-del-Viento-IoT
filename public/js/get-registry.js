@@ -4,7 +4,7 @@ function parseToFullCalendar(messages) {
     let calendarEvents = [];
     messages.forEach(message => {
         const event = {
-            title: message.raw_string,
+            title: `${message.wind_speed} ${message.units}, ${message.wind_direction}°`,
             start: message.created_at,
         }
         calendarEvents.push(event);

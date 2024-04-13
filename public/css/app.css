@@ -22,6 +22,12 @@
     ::-webkit-scrollbar-track {
         background: rgba(87, 132, 155, 0.432);
     }
+
+    :root.dark {
+        --fc-list-event-hover-bg-color: rgb(100 116 139);
+        --fc-page-bg-color: rgb(30 41 59);
+        --fc-neutral-bg-color: rgb(62, 76, 95);
+      }
 }
 
  

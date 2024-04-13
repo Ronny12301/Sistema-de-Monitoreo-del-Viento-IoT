@@ -36,7 +36,26 @@ async function storeMessage(ms) {
 async function getMessages() {
     try {
         const messages = await prisma.messages.findMany();
-        console.log("messages: ", messages);
+        const data = JSON.stringify({ data: messages }, bigIntReplacer);
+        
+        return JSON.parse(data);
+    } 
+    catch (error) {
+        console.error("Error fetching messages:", error);
+    }
+}
+
+
+/**
+ * Get all registries in the messages schema based on the query parameters
+ * @param {Object} query {field: 'query string'}
+ * @returns {Object} Messages that match the query parameters
+ */
+async function getMessagesWhere(query) {
+    try {
+        const messages = await prisma.messages.findMany({
+            where: query,
+        });
         const data = JSON.stringify({ data: messages }, bigIntReplacer);
         
         return JSON.parse(data);
@@ -81,5 +100,6 @@ function bigIntReplacer(key, value) {
 
 module.exports = {
     storeMessage,
-    getMessages
+    getMessages,
+    getMessagesWhere,
 };
