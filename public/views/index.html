@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Captura de datos de anémometro</title>
+    <title>Captura de datos del anémometro</title>
 
     <link href="../css/output.css" rel="stylesheet">
     <script defer src="./views/components/Navbar.js"></script>
@@ -13,7 +13,7 @@
 </head>
 
 <body class="bg-slate-50 dark:bg-gray-900 dark:text-white">
-    <my-navbar>Datos del anémometro</my-navbar>  
+    <my-navbar>Captura de datos en tiempo real</my-navbar>  
     
     <display-variables></display-variables>
 
@@ -45,5 +45,8 @@
 
     <script src="../js/update-message.js"></script>
     <script src="../js/dark-mode.js"></script>
+    <script>
+        setInterval(updateMessage, 500);
+    </script>
 </body>
 </html>

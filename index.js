@@ -1,4 +1,5 @@
 const { storeMessage, getMessages, getMessagesWhere } = require('./database');
+const { getStartAndEndOfDayToUTC } = require('./date-management');
 const { readFile } = require('fs').promises;
 const express = require('express');
 const app = express();
@@ -22,11 +23,29 @@ app.get('/archive', async (req, res) => {
     res.send( await readFile('./public/views/archive.html', 'utf8'));
 });
 
+app.get('/day', async (req, res) => {
+     const dates = getStartAndEndOfDayToUTC(req.query.created_at);
+
+     const query = {
+         created_at: {
+             gte: dates.startOfDay,
+             lt: dates.endOfDay,
+         }
+     };
+     const messages = await getMessagesWhere(query);
+ 
+     const html = await readFile('./public/views/day.html', 'utf8');
+ 
+     const dataScript = `<script>window.events = ${JSON.stringify(messages)};</script>`;
+     const responseHtml = html.replace('</body>', `${dataScript}</body>`);
+ 
+     res.send(responseHtml);
+});
+
 
 
 let mqttMessage;
 client.on("message", (topic, message) => {
-
     try {
         mqttMessage = JSON.parse(message.toString()); 
         mqttMessage.string = mqttMessage.string.split(' ').join('');
@@ -44,6 +63,7 @@ client.on("message", (topic, message) => {
 });
 
 
+
 app.get('/data', (req, res) => {
     res.send(mqttMessage);
 });
@@ -58,17 +78,12 @@ app.get('/registry', async (req, res) => {
 });
 
 app.get('/getDayData', async (req, res) => {
-    const startOfDay = new Date(req.query.created_at);
-    const offset = new Date().getTimezoneOffset()/60;
-    startOfDay.addHours(offset);
-    
-    const endOfDay = new Date(startOfDay);
-    endOfDay.setDate(startOfDay.getDate() + 1);
+    const dates = getStartAndEndOfDayToUTC(req.query.created_at);
 
     const query = {
         created_at: {
-            gte: startOfDay,
-            lt: endOfDay,
+            gte: dates.startOfDay,
+            lt: dates.endOfDay,
         }
     }
 
@@ -79,12 +94,3 @@ app.get('/getDayData', async (req, res) => {
 
 // Static routes
 app.use(express.static(path.join(__dirname, 'public')));
-
-
-
-
-// https://stackoverflow.com/questions/1050720/how-to-add-hours-to-a-date-object
-Date.prototype.addHours = function(h) {
-    this.setTime(this.getTime() + (h*60*60*1000));
-    return this;
-}

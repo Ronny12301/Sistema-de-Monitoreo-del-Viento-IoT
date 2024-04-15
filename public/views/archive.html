@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Registros</title>
+    <title>Registros - Captura de datos del anémometro</title>
 
     <link href="../css/output.css" rel="stylesheet">
     <script defer src="./views/components/Navbar.js"></script>
@@ -18,6 +18,7 @@
 
     <script src="../js/get-registry.js"></script>
     <script src="../js/dark-mode.js"></script>
+    <script src="../js/date-formatting.js"></script>
     <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/index.global.min.js'></script>
     <script>
         document.addEventListener('DOMContentLoaded', async function () {
@@ -43,9 +44,10 @@
                 moreLinkContent: (numEvents) => `ver ${numEvents.shortText}`,
                 eventMouseEnter: (info) => info.el.title = info.event.title,
                 moreLinkClick: (info) => {
-                    console.log(info)
-                    info.jsEvent.preventDefault();
-                    //window.location = "/"; // Use a relative URL
+                    info.jsEvent.stopPropagation();
+                    console.log(info);
+                    window.location = "/day?created_at=" + formatDate(info.date);
+                    return false;
                 }
             });
             calendar.render();

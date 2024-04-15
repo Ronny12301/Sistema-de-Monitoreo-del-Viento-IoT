@@ -51,8 +51,6 @@ function updateMessage() {
             }
         });
 }
-// Update the message every half seconds
-setInterval(updateMessage, 500);
 
 function splitString(rawData) {
     // Raw data example: "␂Q,136,000.49,M,00,␃17"

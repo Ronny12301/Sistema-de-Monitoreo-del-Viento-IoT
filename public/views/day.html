@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html class="" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Datos del día - Captura de datos del anémometro</title>
+
+    <link href="../css/output.css" rel="stylesheet">
+    <script defer src="./views/components/Navbar.js"></script>
+    <script defer src="./views/components/Compass.js"></script>
+    <script defer src="./views/components/Speedometer.js"></script>
+    <script defer src="./views/components/WindDisplayVariables.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.13.8/dist/cdn.min.js"></script>
+</head>
+
+<body class="bg-slate-50 dark:bg-gray-900 dark:text-white">
+    <my-navbar>Datos del día</my-navbar>  
+    
+    <display-variables></display-variables>
+
+    <div class="flex justify-center items-center 
+        bottom-0 my-4 start-2 end-2 py-3 shadow bg-sky-100 dark:bg-gray-600
+        mx-8 sm:mx-36 md:mx-[30rem] lg:mx-[45rem] rounded-lg"
+    >
+        <p id="raw-string" class="text-2xl text-center">
+            ---
+        </p>
+    </div>
+
+    <table class="mx-auto w-10/12 md:absolute md:mx-10 md:w-3/5 overflow-hidden rounded-lg">
+        <thead class="bg-blue-300 dark:bg-slate-800 px-5 py-3">
+            <tr>
+                <th class="px-2">Hora</th>
+                <th class="px-2 bellow-sm:hidden">Email</th>
+                <th class="px-2">Nodo</th>
+                <th class="px-2">Dirección</th>
+                <th class="px-2">Velocidad</th>
+                <th class="px-2 bellow-sm:hidden">Fecha</th>
+            </tr>
+        </thead>
+
+        <tbody x-data="{events}" class="bg-blue-50 shadow dark:bg-gray-600 text-center">
+            <template x-for="(message, i) in events.data" :key="i">
+                <tr @click="alert(i + '. prueba Click ' + message.created_at)"
+                    class="hover:bg-blue-100 dark:hover:bg-gray-700">
+                    <td x-text="getTimeFromDate(message.created_at)" 
+                        class="pl-2 pr-1 py-1">
+                    </td>
+                    <td x-text="message.email" 
+                        class="px-1 py-1 bellow-sm:hidden">
+                    </td>
+                    <td x-text="message.node_address" 
+                        class="px-1 py-1">
+                    </td>
+                    <td x-text="message.wind_direction"
+                        class="px-1 py-1">
+                    </td>
+                    <td class="pl-1 pr-2 py-1 whitespace-nowrap"
+                        x-text="message.wind_speed + ' ' + message.units">
+                    </td>
+                    <td x-text="getDayMonthYear(message.created_at)" 
+                        class="pl-2 pr-1 py-1 bellow-sm:hidden">
+                    </td>
+                </tr>
+            </template>
+        </tbody>
+    </table>
+    <nav class="pagination-container">
+        <button class="pagination-button" id="prev-button" title="Previous page" aria-label="Previous page">
+          &lt;
+        </button>
+        
+        <div id="pagination-numbers">
+        </div>
+        
+        <button class="pagination-button" id="next-button" title="Next page" aria-label="Next page">
+          &gt;
+        </button>
+    </nav>
+
+    <div class="flex bellow-sm:flex-col justify-center items-center 
+        md:flex-col md:justify-end md:items-end md:mr-20 md:-mt-20"
+    >
+        <my-speedometer class="my-[38px] mx-5"></my-speedometer>
+        <my-compass class="my-[50px] mx-5"></my-compass>
+    </div>
+
+
+
+    <!-- <div id='calendar' class="ml-10 mr-[55vw]"></div> -->
+
+    <script src="../js/dark-mode.js"></script>
+    <script src="../js/get-registry.js"></script>
+    <script src="../js/date-formatting.js"></script>
+</body>
+</html>
