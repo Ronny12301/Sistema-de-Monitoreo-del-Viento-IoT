@@ -31,7 +31,7 @@
     </div>
 
     <div class="md:absolute bottom-1/2 md:left-[13%]">
-        <a  href="/archive" 
+        <a  href="/archive" id="toggle-datepicker"
             class="md:px-[200%] py-3 rounded-xl shadow 
                 text-white text-lg font-medium text-center
                 bg-green-500 hover:bg-green-600 active:bg-green-700
@@ -41,12 +41,18 @@
         >
             Registros
         </a>
+        <div id="datepicker" class=hidden></div>
     </div>
 
     <script src="../js/update-message.js"></script>
     <script src="../js/dark-mode.js"></script>
     <script>
         setInterval(updateMessage, 500);
+
+        $("#datepicker").datepicker();
+        $(".calendar a").click(function(){
+            $("#datepicker").toggle();
+        });
     </script>
 </body>
 </html>

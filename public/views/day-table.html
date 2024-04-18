@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html class="" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Datos del día tabla - Captura de datos del anémometro</title>
+
+    <link href="../css/output.css" rel="stylesheet">
+    <link href="https://unpkg.com/gridjs/dist/theme/mermaid.min.css" rel="stylesheet"/>
+
+    <script defer src="./views/components/Navbar.js"></script>
+    <script defer src="./views/components/WindDisplayVariables.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.13.8/dist/cdn.min.js"></script>
+</head>
+
+<body class="bg-slate-50 dark:bg-gray-900 dark:text-white">
+    <my-navbar>Datos del día</my-navbar>  
+    
+    <display-variables></display-variables>
+
+    <div class="flex justify-center items-center 
+        bottom-0 my-4 start-2 end-2 py-3 shadow bg-sky-100 dark:bg-gray-600
+        mx-8 sm:mx-36 md:mx-[30rem] lg:mx-[45rem] rounded-lg"
+    >
+        <p id="raw-string" class="text-2xl text-center">
+            ---
+        </p>
+    </div>
+
+    <div id="wrapper" class="px-10"></div>
+
+    <div class="md:absolute md:top-52 md:right-12">
+        <div class="flex bellow-sm:flex-col justify-center items-center 
+            md:flex-col md:justify-end md:items-end md:mr-20 md:-mt-20"
+        >
+            <my-compass class="my-[50px] mx-5"></my-compass>
+            <my-speedometer class="my-[38px]"></my-speedometer>
+        </div>
+    </div>
+
+    <script src="../js/dark-mode.js"></script>
+    <script src="../js/get-registry.js"></script>
+    <script src="../js/date-formatting.js"></script>
+    <script src="../js/update-message.js"></script>
+    <script src="https://unpkg.com/gridjs/dist/gridjs.umd.js"></script>
+    <script>
+        function formatMessages(messages) {
+            let data = [];
+            messages.forEach( message => {
+                const row = [
+                    getTimeFromDate(message.created_at),
+                    message.email,
+                    message.node_address,
+                    message.wind_direction,
+                    message.wind_speed + ' ' + message.units,
+                    getDayMonthYear(message.created_at),
+                    message.raw_string,
+                ];
+                data.push(row);
+            })
+            return data;
+        }
+        
+        const grid = new gridjs.Grid({
+            columns: ["Hora", "Email", "Nodo", "Dirección", "Velocidad", "Fecha", {name:"String", hidden: true}],
+            data: formatMessages(messages.data),
+            pagination: true,
+            sort: true,
+            className: {
+                container: "dark:text-white",
+                th: "bg-blue-300 dark:bg-slate-800 dark:text-white text-black border-none",
+                td: "bg-blue-50 dark:bg-gray-600 hover:bg-blue-100 dark:hover:bg-gray-700 cursor-pointer border-none",
+                footer: "dark:bg-slate-800 border-none",
+                tbody: "text-center",
+                search: "bg-slate-800",
+                loading: "bg-slate-800",
+                pagination: "dark:text-gray-100",
+                sort: "dark:fill-gray-200",
+                paginationButton: "dark:bg-slate-700 dark:border-slate-800 hover:text-slate-300",
+                paginationButtonCurrent: "dark:bg-gray-800 bg-gray-100",
+            },
+            language: {
+                sort: {
+                    sortAsc: 'Ordenar columna de forma ascendente',
+                    sortDesc: 'Ordenar columna de forma descendente',
+                  },
+                pagination: {
+                    previous: 'Atras',
+                    next: 'Siguiente',
+                    showing: 'Mostrando',
+                    navigate: (page, pages) => `Página ${page} de ${pages}`,
+                    page: (page) => `Página ${page}`,
+                    of: 'de',
+                    to: '-',
+                    results: 'resultados',
+                },
+                loading: 'Cargando...',
+                noRecordsFound: 'No se ha encontrado ningún registro',
+                error: 'Ha ocurrido un error al recuperar los datos',
+            }
+          }).render(document.getElementById("wrapper"));
+
+          grid.on('rowClick', (...args) => {
+            const rowData = args[1];
+            setVariableValues(rowData._cells[6].data);
+        });
+
+    </script>
+</body>
+</html>

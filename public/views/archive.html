@@ -44,7 +44,6 @@
                 moreLinkContent: (numEvents) => `ver ${numEvents.shortText}`,
                 eventMouseEnter: (info) => info.el.title = info.event.title,
                 moreLinkClick: (info) => {
-                    info.jsEvent.stopPropagation();
                     console.log(info);
                     window.location = "/day?created_at=" + formatDate(info.date);
                     return false;

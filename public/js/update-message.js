@@ -29,26 +29,29 @@ function setStatusColour(status) {
     }
 }
 
+function setVariableValues(message) {
+    try {
+        const windData = splitString(message);
+        document.querySelector('#raw-string').textContent = message;
+
+        document.querySelector('#node-address').textContent = windData.nodeAddress;
+        document.querySelector('#wind-direction').textContent = windData.windDirection + "°";
+        document.querySelector('#wind-speed').textContent = `${parseFloat(windData.windSpeed)} ${UNITS[windData.units]}`;
+        document.querySelector('#status').textContent = windData.status;
+        document.querySelector('#checksum').textContent = windData.checksum;
+
+        document.getElementById("status").setAttribute("data-tooltip", STATUS[windData.status] ?? "Indefinido");
+        setStatusColour(windData.status);
+    } catch (e) {
+        console.error("Formato inválido:", e.message);
+    }
+}
 
 function updateMessage() {
     fetch('/data')
         .then(response => response.json())
         .then(message => {
-            try {
-                const windData = splitString(message.string);
-                document.querySelector('#raw-string').textContent = message.string;
-
-                document.querySelector('#node-address').textContent = windData.nodeAddress;
-                document.querySelector('#wind-direction').textContent = windData.windDirection + "°";
-                document.querySelector('#wind-speed').textContent = `${parseFloat(windData.windSpeed)} ${UNITS[windData.units]}`;
-                document.querySelector('#status').textContent = windData.status;
-                document.querySelector('#checksum').textContent = windData.checksum;
-
-                document.getElementById("status").setAttribute("data-tooltip", STATUS[windData.status] ?? "Indefinido");
-                setStatusColour(windData.status);
-            } catch (e) {
-                console.error("Formato inválido:", e.message);
-            }
+            setVariableValues(message.string);
         });
 }
 

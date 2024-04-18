@@ -1,6 +1,6 @@
 const mqtt = require("mqtt");
-// const client = mqtt.connect("mqtt://localhost:1883");
-const client = mqtt.connect("mqtt://test.mosquitto.org:1883");
+const client = mqtt.connect("mqtt://localhost:1883");
+// const client = mqtt.connect("mqtt://test.mosquitto.org:1883");
 
 
 client.on("connect", () => {

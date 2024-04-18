@@ -1,6 +1,7 @@
 const { storeMessage, getMessages, getMessagesWhere } = require('./database');
-const { getStartAndEndOfDayToUTC } = require('./date-management');
-const { readFile } = require('fs').promises;
+const { getStartAndEndOfDayToUTC } = require('./helpers/date-management');
+
+const { view } = require('./helpers/views-management');
 const express = require('express');
 const app = express();
 const path = require('path');
@@ -16,11 +17,11 @@ app.listen(
 );
 
 app.get('/', async (req, res) => {
-    res.send( await readFile('./public/views/index.html', 'utf8'));
+    res.send( await view('index') );
 });
 
 app.get('/archive', async (req, res) => {
-    res.send( await readFile('./public/views/archive.html', 'utf8'));
+    res.send( await view('archive') );
 });
 
 app.get('/day', async (req, res) => {
@@ -28,20 +29,32 @@ app.get('/day', async (req, res) => {
 
      const query = {
          created_at: {
-             gte: dates.startOfDay,
-             lt: dates.endOfDay,
+                gte: dates.startOfDay,
+                lt: dates.endOfDay,
          }
      };
-     const messages = await getMessagesWhere(query);
  
-     const html = await readFile('./public/views/day.html', 'utf8');
- 
-     const dataScript = `<script>window.events = ${JSON.stringify(messages)};</script>`;
-     const responseHtml = html.replace('</body>', `${dataScript}</body>`);
- 
-     res.send(responseHtml);
+     res.send( await view('day', {
+        messages: await getMessagesWhere(query),
+    }));
 });
 
+app.get('/day-table', async (req, res) => {
+    const dates = getStartAndEndOfDayToUTC(req.query.created_at);
+
+    const query = {
+        created_at: {
+               gte: dates.startOfDay,
+               lt: dates.endOfDay,
+        }
+    };
+
+    const messages = await getMessagesWhere(query);
+
+    res.send( await view('day-table', {
+        messages: messages,
+    }));
+});
 
 
 let mqttMessage;
@@ -70,14 +83,14 @@ app.get('/data', (req, res) => {
 
 app.get('/registry', async (req, res) => {
     try {
-        let messages = await getMessages();
+        const messages = await getMessages();
         res.json(messages);
     } catch (error) {
         res.status(500).send({error: error.message});
     }
 });
 
-app.get('/getDayData', async (req, res) => {
+app.get('/day-data', async (req, res) => {
     const dates = getStartAndEndOfDayToUTC(req.query.created_at);
 
     const query = {
