@@ -1,57 +1,160 @@
 <!DOCTYPE html>
 <html class="" lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Datos del día - Captura de datos del anémometro</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Datos del día - Captura de datos del anémometro</title>
 
-    <link href="../css/output.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.datatables.net/2.0.4/css/dataTables.dataTables.css" />
-    <script defer src="./views/components/Navbar.js"></script>
-    <script defer src="./views/components/Compass.js"></script>
-    <script defer src="./views/components/Speedometer.js"></script>
-    <script defer src="./views/components/WindDisplayVariables.js"></script>
-    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.13.8/dist/cdn.min.js"></script>
+  <link href="../css/output.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.datatables.net/2.0.4/css/dataTables.dataTables.css" />
+  <script defer src="./views/components/Navbar.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.13.8/dist/cdn.min.js"></script>  
 </head>
 
 <body class="bg-slate-50 dark:bg-gray-900 dark:text-white">
-    <my-navbar>Datos del día</my-navbar>  
-    
-    <display-variables></display-variables>
+    <my-navbar><div id="title">Datos del día</div></my-navbar>  
 
-    <div class="flex justify-center items-center 
-        bottom-0 my-4 start-2 end-2 py-3 shadow bg-sky-100 dark:bg-gray-600
-        mx-8 sm:mx-36 md:mx-[30rem] lg:mx-[45rem] rounded-lg"
-    >
-        <p id="raw-string" class="text-2xl text-center">
-            ---
-        </p>
+    <div x-data="messages" class="flex justify-center">
+      <a x-bind:href="'/day-table?created_at=' + getISODate(messages[0].created_at)" 
+        class="px-10 py-3 rounded-xl shadow 
+        text-white text-lg font-medium text-center
+        bg-green-500 hover:bg-green-600 active:bg-green-700
+        dark:bg-green-600 dark:hover:bg-green-700 dark:active:bg-green-800"
+      >
+        Tabla de registros
+      </a>
     </div>
 
-
-    <div class="md:absolute md:top-52 md:right-12">
-        <div class="flex bellow-sm:flex-col justify-center items-center 
-            md:flex-col md:justify-end md:items-end md:mr-20 md:-mt-20"
-        >
-            <my-compass class="my-[50px] mx-5"></my-compass>
-            <my-speedometer class="my-[38px]"></my-speedometer>
-        </div>
+    <div class="mt-5 flex justify-center space-x-10">
+        <canvas 
+          id="chart-line" 
+          class="dark:bg-slate-200 rounded-md px-2 w-[45vw] h-[70vh]">
+        </canvas>
+        
+        <canvas 
+          id="chart-polar" 
+          class="dark:bg-slate-200 rounded-md px-2 w-[45vw] h-[70vh]">
+        </canvas>
     </div>
 
     <script src="../js/dark-mode.js"></script>
     <script src="../js/get-registry.js"></script>
     <script src="../js/date-formatting.js"></script>
-    <script src="../js/update-message.js"></script>
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-    <script src="https://cdn.datatables.net/2.0.4/js/dataTables.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
-        $(function() {
-            $('#myTable').DataTable({
-                "language": {
-                    "url": "https://cdn.datatables.net/plug-ins/e9421181788/i18n/Spanish.json"
-                }
-            });
+        const chartLine = document.getElementById('chart-line');
+        const chartPolar = document.getElementById('chart-polar');
+
+        const lineData = getLineChartData(messages);
+
+        new Chart(chartLine, {
+          type: 'line',
+          data: {
+            labels: lineData.time,
+            datasets: [{
+              label: 'Velocidad del viento',
+              data: lineData.speed,
+              borderWidth: 1
+            }]
+          },
+          options: {
+            scales: {
+              y: {
+                beginAtZero: true
+              },
+            },
+            plugins: {
+              legend: {
+                  labels: {
+                      font: {
+                          size: 20
+                      }
+                  }
+              },
+              tooltip: {
+                bodyFont: {
+                    size: 18,
+                    family: 'Arial',
+                },
+                titleFont: {
+                    size: 20, // Font size for the tooltip title text
+                    family: 'Arial', // Font family for the tooltip title text
+                    weight: 'bold' // Font weight for the tooltip title text
+                },
+              }  
+            }
+          }
         });
-    </script>
+
+        const polarChartData = getPolarChartData(messages);
+        console.log(polarChartData);
+        new Chart(chartPolar, {
+          type: 'polarArea',
+          data: {
+            labels: polarChartData.direction,
+            datasets: [{
+              data: polarChartData.frequency,
+              borderColor: 'rgb(54, 162, 235)'
+            }],
+          },
+          options: {
+            plugins: {
+              legend: {
+                display: false, // This hides the legend
+              },
+              title: {
+                display: true,
+                text: 'Dirección del viento',
+                font: {
+                  size: 18
+                }
+              }
+            },
+            scales: {
+              r: { // This targets the radial scale
+                ticks: {
+                  backdropColor: 'rgba(0, 0, 0, 0)', // Set the background color to transparent
+                  color: '#000' // Ensure the tick color is visible
+                }
+              }
+            }
+          },
+        });
+
+        function getLineChartData(messages) {
+          let time = [];
+          let speed = [];
+          let units = [];
+
+          messages.forEach((msg) => {
+            time.push(getTimeFromDate(msg.created_at))
+            speed.push(msg.wind_speed)
+            units.push(msg.units)
+          });
+
+          return {
+              time: time,
+              speed: speed,
+              units: units,
+          };
+        }
+
+        function getPolarChartData(messages) {
+          const directions = Array.from({ length: 360 }, (_, i) => i);
+          const frequency = Array(360).fill(0);
+      
+          messages.forEach(message => {
+              const direction = message.wind_direction;
+              frequency[direction]++;
+          });
+      
+          return {
+              direction: directions,
+              frequency: frequency
+          };
+      }
+
+        document.querySelector('#title').textContent = "Datos del día " + getDayMonthYear(messages[0].created_at);
+      </script>
 </body>
 </html>

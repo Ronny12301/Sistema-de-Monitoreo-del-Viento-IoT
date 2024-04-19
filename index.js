@@ -33,9 +33,11 @@ app.get('/day', async (req, res) => {
                 lt: dates.endOfDay,
          }
      };
+
+     const msg = await getMessagesWhere(query);
  
      res.send( await view('day', {
-        messages: await getMessagesWhere(query),
+        messages: msg.data,
     }));
 });
 
