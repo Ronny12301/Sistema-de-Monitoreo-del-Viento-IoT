@@ -12,7 +12,7 @@
 </head>
 
 <body class="bg-slate-50 dark:bg-gray-900 dark:text-white">
-    <my-navbar><div id="title">Datos del día</div></my-navbar>  
+    <my-navbar><div id="title">No se han encontrado datos</div></my-navbar>  
 
     <div x-data="messages" class="flex justify-center">
       <a x-bind:href="'/day-table?created_at=' + getISODate(messages[0].created_at)" 
@@ -25,16 +25,39 @@
       </a>
     </div>
 
-    <div class="mt-5 md:flex md:justify-center md:space-x-10 bellow-md:space-y-10">
+    <div class="mt-5 md:flex md:justify-center md:h-[70vh] md:space-x-10 bellow-md:space-y-10 bellow-md:mx-2">
         <canvas 
           id="chart-line" 
-          class="dark:bg-slate-200 rounded-md px-2 md:w-[45vw] md:h-[70vh]">
+          class="dark:bg-slate-200 rounded-md px-2 h-[100%] md:w-[45vw]">
         </canvas>
         
-        <canvas 
-          id="chart-polar" 
-          class="dark:bg-slate-200 rounded-md px-2 md:w-[45vw] md:h-[70vh]">
-        </canvas>
+        <div class="relative text-gray-700 font-bold">
+          <span class="absolute left-1/2 -translate-x-1/2 z-50 
+            top-7 text-2xl"
+          >
+            N
+          </span>
+          <span class="absolute left-1/2 -translate-x-1/2 z-50 
+            bottom-0 text-2xl"
+          >
+            S
+          </span>
+          <span class="absolute left-2 md:left-6
+            top-[52%] text-2xl"
+          >
+            O
+          </span>
+          <span class="absolute right-2 md:right-6
+            top-[52%] text-2xl"
+          >
+            E
+          </span> 
+
+          <canvas 
+            id="chart-polar" 
+            class="dark:bg-slate-200 rounded-md pb-6 pt-2 w-[100%] h-[100%] md:w-[45vw]">
+          </canvas>
+        </div>
     </div>
 
     <script src="../js/dark-mode.js"></script>
@@ -87,7 +110,6 @@
         });
 
         const polarChartData = getPolarChartData(messages);
-        console.log(polarChartData);
         new Chart(chartPolar, {
           type: 'polarArea',
           data: {
@@ -100,24 +122,28 @@
           options: {
             plugins: {
               legend: {
-                display: false, // This hides the legend
+                display: false,
               },
               title: {
                 display: true,
                 text: 'Dirección del viento',
                 font: {
                   size: 18
-                }
+                },
+                padding: {
+                  bottom: 30 
+                },
               }
             },
             scales: {
-              r: { // This targets the radial scale
+              r: {
                 ticks: {
-                  backdropColor: 'rgba(0, 0, 0, 0)', // Set the background color to transparent
-                  color: '#000' // Ensure the tick color is visible
+                  backdropColor: 'rgba(0, 0, 0, 0)',
+                  color: '#999',
                 }
               }
-            }
+            },
+            
           },
         });
 

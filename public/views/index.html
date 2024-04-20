@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Captura de datos del anémometro</title>
+    <title>Captura de datos en tiempo real del anémometro</title>
 
     <link href="../css/output.css" rel="stylesheet">
     <script defer src="./views/components/Navbar.js"></script>
@@ -13,7 +13,7 @@
 </head>
 
 <body class="bg-slate-50 dark:bg-gray-900 dark:text-white">
-    <my-navbar>Captura de datos en tiempo real</my-navbar>  
+    <my-navbar>Captura de datos</my-navbar>  
     
     <display-variables></display-variables>
 
@@ -61,8 +61,16 @@
             if (event.target.classList.contains('datepicker-cell')) {
                 const dataDate = event.target.getAttribute('data-date');
                 const d = getISODate(parseInt(dataDate));
-
+                
+                if (d === "NaN-NaN-NaN") {
+                    return;
+                }
                 window.location.href = `/day?created_at=${d}`;
+            }
+            else if (event.target.classList.contains('today-btn')) {
+                const today = new Date();
+                const formattedDate = getISODate(today);
+                window.location.href = `/day?created_at=${formattedDate}`;
             }
         });
     </script>
