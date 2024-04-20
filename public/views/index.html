@@ -19,7 +19,7 @@
 
     <div class="flex bellow-sm:flex-col justify-center items-center md:absolute md:bottom-14 md:h-2/3 md:end-32">
         <my-speedometer class="my-[38px] mx-5"></my-speedometer>
-        <my-compass class="my-[50px] mx-5"></my-compass>
+        <my-compass class="my-[50px] mx-5 z-0"></my-compass>
     </div>
 
     <div class="md:absolute bottom-0 mb-4 start-2 end-2 py-3 shadow bg-sky-100 dark:bg-gray-600
@@ -31,7 +31,7 @@
     </div>
 
     <div class="md:absolute bottom-1/2 md:left-[13%]">
-        <a  href="/archive" id="toggle-datepicker"
+        <a  href="#" id="focus-input"
             class="md:px-[200%] py-3 rounded-xl shadow 
                 text-white text-lg font-medium text-center
                 bg-green-500 hover:bg-green-600 active:bg-green-700
@@ -41,10 +41,30 @@
         >
             Registros
         </a>
-        <div id="datepicker" class=hidden></div>
+
+        <input datepicker datepicker-buttons datepicker-autoselect-today
+            id="input-field" type="text" class="absolute -left-[200vw]"
+        >
     </div>
 
     <script src="../js/update-message.js"></script>
     <script src="../js/dark-mode.js"></script>
+    <script src="../js/date-formatting.js"></script>
+    <script src="../js/flowbite-datepicker.js"></script>
+    <script>
+        document.getElementById("focus-input").addEventListener("click", function(event) {
+            event.preventDefault();
+            document.getElementById("input-field").focus();
+        });
+
+        document.body.addEventListener('click', function(event) {
+            if (event.target.classList.contains('datepicker-cell')) {
+                const dataDate = event.target.getAttribute('data-date');
+                const d = getISODate(parseInt(dataDate));
+
+                window.location.href = `/day?created_at=${d}`;
+            }
+        });
+    </script>
 </body>
 </html>
