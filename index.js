@@ -69,7 +69,7 @@ client.on("message", (topic, message) => {
         storeMessage(mqttMessage).then(() => {
             console.log("Message stored successfully.");
         }).catch((error) => {
-            console.error("Error storing message:", error);
+            conon("message", (topic, sole.error("Error storing message:", error);
         });
     }
     catch (e) { 
