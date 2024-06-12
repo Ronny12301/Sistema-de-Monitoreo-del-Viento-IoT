@@ -73,18 +73,23 @@
         new Chart(chartLine, {
           type: 'line',
           data: {
-            labels: lineData.time,
+            labels: lineData.time.length > 10000 ? undefined : lineData.time,
             datasets: [{
               label: 'Velocidad del viento',
-              data: lineData.speed,
-              borderWidth: 1
+              data: parseChartData(lineData.time, lineData.speed),
+              pointRadius: 0,
             }]
           },
           options: {
+            animation: false,
+            normalized: true,
+            spanGaps: true,
+            //parsing: false,
             scales: {
               y: {
-                beginAtZero: true
-              },
+                  type: 'linear',
+                  min: 0,
+              }
             },
             plugins: {
               legend: {
@@ -100,26 +105,27 @@
                     family: 'Arial',
                 },
                 titleFont: {
-                    size: 20, // Font size for the tooltip title text
-                    family: 'Arial', // Font family for the tooltip title text
-                    weight: 'bold' // Font weight for the tooltip title text
+                    size: 20,
+                    family: 'Arial',
+                    weight: 'bold'
                 },
               }  
             }
           }
         });
+        
 
         const polarChartData = getPolarChartData(messages);
         new Chart(chartPolar, {
           type: 'polarArea',
           data: {
-            labels: polarChartData.direction,
             datasets: [{
               data: polarChartData.frequency,
               borderColor: 'rgb(54, 162, 235)'
             }],
           },
           options: {
+            animation: false,
             plugins: {
               legend: {
                 display: false,
@@ -148,20 +154,17 @@
         });
 
         function getLineChartData(messages) {
-          let time = [];
-          let speed = [];
-          let units = [];
+          const time = [];
+          const speed = [];
 
           messages.forEach((msg) => {
             time.push(getTimeFromDate(msg.created_at))
             speed.push(msg.wind_speed)
-            units.push(msg.units)
           });
 
           return {
               time: time,
               speed: speed,
-              units: units,
           };
         }
 
@@ -181,6 +184,14 @@
       }
 
         document.querySelector('#title').textContent = "Datos del día " + getDayMonthYear(messages[0].created_at);
+        
+        function parseChartData(xAxis, yAxis) {
+          const chartData = [];
+          for (let i = 0; i < xAxis.length; i++) {
+            chartData.push({ x: xAxis[i], y: yAxis[i] });
+          }
+          return chartData;
+        }
       </script>
 </body>
 </html>
