@@ -63,17 +63,19 @@
     <script src="../js/dark-mode.js"></script>
     <script src="../js/get-registry.js"></script>
     <script src="../js/date-formatting.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/date-fns@3.6.0/cdn.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns@v3.0.0/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
     <script>
         const chartLine = document.getElementById('chart-line');
         const chartPolar = document.getElementById('chart-polar');
 
         const lineData = getLineChartData(messages);
+        console.log(parseChartData(lineData.time, lineData.speed));
 
         new Chart(chartLine, {
           type: 'line',
           data: {
-            labels: lineData.time.length > 10000 ? undefined : lineData.time,
             datasets: [{
               label: 'Velocidad del viento',
               data: parseChartData(lineData.time, lineData.speed),
@@ -84,14 +86,27 @@
             animation: false,
             normalized: true,
             spanGaps: true,
-            //parsing: false,
+            parsing: false,
             scales: {
+              x: {
+                type: 'time',
+                time: {
+                  unit: 'minute',
+                },
+                source: 'auto',
+                maxRotation: 0,
+                autoSkip: true,
+              },
               y: {
                   type: 'linear',
                   min: 0,
               }
             },
             plugins: {
+              decimation: {
+                enabled: true,
+                algorithm: 'lttb',
+              },
               legend: {
                   labels: {
                       font: {
@@ -126,6 +141,7 @@
           },
           options: {
             animation: false,
+            normalized: true,
             plugins: {
               legend: {
                 display: false,
@@ -158,8 +174,9 @@
           const speed = [];
 
           messages.forEach((msg) => {
-            time.push(getTimeFromDate(msg.created_at))
-            speed.push(msg.wind_speed)
+            const date = new Date(msg.created_at);
+            time.push((date.getTime()));
+            speed.push(msg.wind_speed);
           });
 
           return {
