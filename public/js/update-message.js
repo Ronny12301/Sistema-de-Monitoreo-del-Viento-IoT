@@ -35,7 +35,7 @@ function setVariableValues(message) {
         document.querySelector('#raw-string').textContent = message;
 
         document.querySelector('#node-address').textContent = windData.nodeAddress;
-        document.querySelector('#wind-direction').textContent = windData.windDirection + "°";
+        document.querySelector('#wind-direction').textContent = parseInt(windData.windDirection) + "°";
         document.querySelector('#wind-speed').textContent = `${parseFloat(windData.windSpeed)} ${UNITS[windData.units]}`;
         document.querySelector('#status').textContent = windData.status;
         document.querySelector('#checksum').textContent = windData.checksum;
