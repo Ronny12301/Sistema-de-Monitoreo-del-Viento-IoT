@@ -42,12 +42,23 @@
             } 
         }; 
         var d = { 
-            autohide: !1, beforeShowDay: null, beforeShowDecade: null, beforeShowMonth: null, beforeShowYear: null, calendarWeeks: !1, clearBtn: !1, dateDelimiter: ",", datesDisabled: [], daysOfWeekDisabled: [], daysOfWeekHighlighted: [], defaultViewDate: void 0, disableTouchKeyboard: !1, format: "mm/dd/yyyy", language: "en", maxDate: null, maxNumberOfDates: 1, maxView: 3, minDate: null, 
+            autohide: !1, beforeShowDay: null, beforeShowDecade: null, 
+            beforeShowMonth: null, beforeShowYear: null, 
+            calendarWeeks: !1, clearBtn: !1, 
+            dateDelimiter: ",", 
+            datesDisabled: [], 
+            daysOfWeekDisabled: [], 
+            daysOfWeekHighlighted: [], 
+            defaultViewDate: void 0, 
+            disableTouchKeyboard: !1, 
+            format: "mm/dd/yyyy", language: "en", 
+            maxDate: null, maxNumberOfDates: 1, 
+            maxView: 3, minDate: null, 
             nextArrow: '<svg class="w-4 h-4 rtl:rotate-180 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5h12m0 0L9 1m4 4L9 9"/></svg>', 
             orientation: "auto", pickLevel: 0, prevArrow: '<svg class="w-4 h-4 rtl:rotate-180 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 5H1m0 0 4 4M1 5l4-4"/></svg>', showDaysOfWeek: !0, showOnClick: !0, 
             showOnFocus: !0, 
             startView: 0, title: "", 
-            todayBtn: !1, todayBtnMode: 0, todayHighlight: !1, updateOnBlur: !0, weekStart: 0 
+            todayBtn: !1, todayBtnMode: 0, todayHighlight: 1, updateOnBlur: !0, weekStart: 0 
         }; 
         const c = document.createRange(); function l(e) { 
             return c.createContextualFragment(e) 
@@ -61,8 +72,8 @@
                     constructor(e) { this.datepicker = e; const t = x.replace(/%buttonClass%/g, e.config.buttonClass), i = this.element = l(t).firstChild, [r, a, n] = i.firstChild.children, o = r.firstElementChild, [d, c, h] = r.lastElementChild.children, [u, g] = n.firstChild.children, f = { title: o, prevBtn: d, viewSwitch: c, nextBtn: h, todayBtn: u, clearBtn: g }; this.main = a, this.controls = f; const p = e.inline ? "inline" : "dropdown"; i.classList.add(`datepicker-${p}`), "dropdown" === p && i.classList.add(
                         "dropdown", 
                         "absolute",  
-                        "md:top-1/4", 
-                        "md:left-1/4", 
+                        // "md:top-1/4", 
+                        // "md:left-1/4", 
                         "sm:left-1/3", 
                         "z-[500]", 
                         "pt-2"

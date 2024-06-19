@@ -11,18 +11,13 @@ const path = require('path');
 async function view(view, variables) {
     const html = await readFile(path.join(__dirname, `../public/views/${view}.html`), 'utf8');
 
-    if (!variables) {
+    if (!variables || typeof variables!== 'object') {
         return html;
     }
 
-    if (typeof variables !== 'object') {
-        return "Not an object";
-    }
-
-    let dataScript = '';
-    (Object.keys(variables)).forEach((variableName) => {
-        dataScript += `<script>window.${variableName} = ${JSON.stringify(variables[variableName])};</script>\n`;
-    });
+    const dataScript = Object.entries(variables)
+           .map(([key, value]) => `<script>window.${key} = ${JSON.stringify(value)}</script>`)
+           .join('');
  
     return html.replace('</head>', `${dataScript}</head>`);
 }

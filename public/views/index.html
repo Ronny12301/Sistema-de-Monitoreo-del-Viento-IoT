@@ -10,6 +10,7 @@
     <script defer src="./views/components/Compass.js"></script>
     <script defer src="./views/components/Speedometer.js"></script>
     <script defer src="./views/components/WindDisplayVariables.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.13.8/dist/cdn.min.js"></script>  
 </head>
 
 <body class="bg-slate-50 dark:bg-gray-900 dark:text-white">
@@ -31,47 +32,28 @@
     </div>
 
     <div class="md:absolute bottom-1/2 md:left-[13%]">
-        <a  href="#" id="focus-input"
-            class="md:px-[200%] py-3 rounded-xl shadow 
+        <a  href="#" id="archive"
+            class="px-32 py-3 rounded-xl shadow 
                 text-white text-lg font-medium text-center
                 bg-green-500 hover:bg-green-600 active:bg-green-700
                 dark:bg-green-600 dark:hover:bg-green-700 dark:active:bg-green-800
                 bellow-md:absolute bellow-md:left-0 bellow-md:right-0
                 bellow-sm:mx-8 bellow-md:sm:mx-36"
         >
-            Registros
+            Ver Registros
         </a>
-
-        <input datepicker datepicker-buttons datepicker-autoselect-today readonly
-            id="input-field" type="text" class="absolute -left-[200vw]"
-        >
     </div>
 
     <script src="../js/update-message.js"></script>
     <script src="../js/dark-mode.js"></script>
     <script src="../js/date-formatting.js"></script>
-    <script src="../js/flowbite-datepicker.js"></script>
-    <script>
-        document.getElementById("focus-input").addEventListener("click", function(event) {
-            event.preventDefault();
-            document.getElementById("input-field").focus();
-        });
 
-        document.body.addEventListener('click', function(event) {
-            if (event.target.classList.contains('datepicker-cell')) {
-                const dataDate = event.target.getAttribute('data-date');
-                const d = getISODate(parseInt(dataDate));
-                
-                if (d === "NaN-NaN-NaN") {
-                    return;
-                }
-                window.location.href = `/day?created_at=${d}`;
-            }
-            else if (event.target.classList.contains('today-btn')) {
-                const today = new Date();
-                const formattedDate = getISODate(today);
-                window.location.href = `/day?created_at=${formattedDate}`;
-            }
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const linkElement = document.getElementById('archive');
+            const currentDateIso = getISODate(new Date());
+            const hrefValue = `/day?created_at=${currentDateIso}`;
+            linkElement.setAttribute('href', hrefValue);
         });
     </script>
 

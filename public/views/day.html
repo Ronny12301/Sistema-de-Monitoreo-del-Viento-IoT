@@ -6,13 +6,27 @@
   <title>Datos del día - Captura de datos del anémometro</title>
 
   <link href="../css/output.css" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdn.datatables.net/2.0.4/css/dataTables.dataTables.css" />
   <script defer src="./views/components/Navbar.js"></script>
   <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.13.8/dist/cdn.min.js"></script>  
 </head>
 
 <body class="bg-slate-50 dark:bg-gray-900 dark:text-white">
     <my-navbar><div id="title">No se han encontrado datos</div></my-navbar>  
+
+    <div class="flex justify-center">
+      <a  href="#" id="focus-input"
+          class="px-6 py-3 rounded-xl shadow mb-2
+              text-white text-lg font-medium text-center
+              bg-blue-500 hover:bg-blue-600 active:bg-blue-700
+              dark:bg-blue-700 dark:hover:bg-blue-800 dark:active:bg-blue-900"
+      >
+          Calendario
+      </a>
+
+      <input datepicker datepicker-autoselect-today readonly
+          id="input-field" type="text" class="absolute -left-[200vw]"
+      >
+    </div>
 
     <div x-data="messages" class="flex justify-center">
       <a x-bind:href="'/day-table?created_at=' + getISODate(messages[0].created_at)" 
@@ -25,7 +39,7 @@
       </a>
     </div>
 
-    <div class="mt-5 md:flex md:justify-center md:h-[70vh] md:space-x-10 bellow-md:space-y-10 bellow-md:mx-2">
+    <div class="my-5 md:flex md:justify-center md:h-[80vh] md:space-x-10 bellow-md:space-y-10 bellow-md:mx-2">
         <canvas 
           id="chart-line" 
           class="dark:bg-slate-200 rounded-md px-2 h-[100%] md:w-[45vw]">
@@ -66,14 +80,15 @@
     <script src="https://cdn.jsdelivr.net/npm/date-fns@3.6.0/cdn.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns@v3.0.0/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
+    <script src="../js/flowbite-datepicker.js"></script>
+
     <script>
         const chartLine = document.getElementById('chart-line');
         const chartPolar = document.getElementById('chart-polar');
 
         const lineData = getLineChartData(messages);
-        console.log(parseChartData(lineData.time, lineData.speed));
 
-        new Chart(chartLine, {
+        let speedChart = new Chart(chartLine, {
           type: 'line',
           data: {
             datasets: [{
@@ -131,7 +146,7 @@
         
 
         const polarChartData = getPolarChartData(messages);
-        new Chart(chartPolar, {
+        let directionChart = new Chart(chartPolar, {
           type: 'polarArea',
           data: {
             datasets: [{
@@ -209,6 +224,30 @@
           }
           return chartData;
         }
+      </script>
+
+      <script>
+        document.getElementById("focus-input").addEventListener("click", function(event) {
+            event.preventDefault();
+            document.getElementById("input-field").focus();
+        });
+
+        document.body.addEventListener('click', function(event) {
+            if (event.target.classList.contains('datepicker-cell')) {
+                const dataDate = event.target.getAttribute('data-date');
+                const d = getISODate(parseInt(dataDate));
+                
+                if (d === "NaN-NaN-NaN") {
+                    return;
+                }
+                window.location.href = `/day?created_at=${d}`;
+            }
+            else if (event.target.classList.contains('today-btn')) {
+                const today = new Date();
+                const formattedDate = getISODate(today);
+                window.location.href = `/day?created_at=${formattedDate}`;
+            }
+        });
       </script>
 </body>
 </html>
