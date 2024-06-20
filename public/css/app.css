@@ -11,6 +11,14 @@
             px-5 left-[50%] translate-x-[-50%] md:left-[69%];       /* Nice */
     }
 
+    .btn-csv {
+        @apply border py-2 px-4 rounded-lg 
+        dark:bg-gray-400 dark:border-gray-600
+        dark:hover:bg-gray-500 dark:active:bg-gray-600
+        bg-gray-300 border-gray-200
+        hover:bg-[#B7BCC0] active:bg-gray-400;
+    }
+
     /* scrollbar */
     ::-webkit-scrollbar {
         @apply w-[5px];

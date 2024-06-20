@@ -26,33 +26,32 @@
         </p>
     </div>
 
-    <div id="wrapper" class="px-10"></div>
-
-    <div class="md:absolute md:top-52 md:right-12">
-        <div class="flex bellow-sm:flex-col justify-center items-center 
-            md:flex-col md:justify-end md:items-end md:mr-20 md:-mt-20"
+    <div>
+        <button class="ml-[3.5%] btn-csv" 
+          onclick="downloadCSV(messages, `Viento ${getISODate(messages[0].created_at)}`);"
         >
-            <my-compass class="my-[50px] mx-5"></my-compass>
-            <my-speedometer class="my-[38px]"></my-speedometer>
-        </div>
+          Descargar CSV
+        </button>
     </div>
 
+    <div id="wrapper" class="px-10"></div>
+
     <script src="../js/dark-mode.js"></script>
-    <script src="../js/get-registry.js"></script>
-    <script src="../js/date-formatting.js"></script>
     <script src="../js/update-message.js"></script>
+    <script src="../js/date-formatting.js"></script>
+    <script src="../js/download-csv.js"></script>
     <script src="https://unpkg.com/gridjs/dist/gridjs.umd.js"></script>
     <script>
         function formatMessages(messages) {
             let data = [];
             messages.forEach( message => {
                 const row = [
-                    getTimeFromDate(message.created_at),
+                    new Date(message.created_at).toLocaleTimeString(),
                     message.email,
                     message.node_address,
                     message.wind_direction,
                     message.wind_speed + ' ' + message.units,
-                    getDayMonthYear(message.created_at),
+                    new Date(message.created_at).toLocaleDateString(),
                     message.raw_string,
                 ];
                 data.push(row);
@@ -62,7 +61,7 @@
         
         const grid = new gridjs.Grid({
             columns: ["Hora", "Email", "Nodo", "Dirección", "Velocidad", "Fecha", {name:"String", hidden: true}],
-            data: formatMessages(messages.data),
+            data: formatMessages(messages),
             pagination: true,
             sort: true,
             search: true,

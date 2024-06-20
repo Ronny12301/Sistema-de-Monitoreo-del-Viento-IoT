@@ -39,6 +39,14 @@
       </a>
     </div>
 
+    <div>
+      <button class="ml-[3.5%] btn-csv" 
+        onclick="downloadCSV(messages, `Viento ${getISODate(messages[0].created_at)}`);"
+      >
+        Descargar CSV
+      </button>
+    </div>
+
     <div class="my-5 md:flex md:justify-center md:h-[80vh] md:space-x-10 bellow-md:space-y-10 bellow-md:mx-2">
         <canvas 
           id="chart-line" 
@@ -74,9 +82,11 @@
         </div>
     </div>
 
+    
+
     <script src="../js/dark-mode.js"></script>
-    <script src="../js/get-registry.js"></script>
     <script src="../js/date-formatting.js"></script>
+    <script src="../js/download-csv.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/date-fns@3.6.0/cdn.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns@v3.0.0/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
@@ -215,7 +225,7 @@
           };
       }
 
-        document.querySelector('#title').textContent = "Datos del día " + getDayMonthYear(messages[0].created_at);
+        document.querySelector('#title').textContent = "Datos del día " + new Date(messages[0].created_at).toLocaleDateString();
         
         function parseChartData(xAxis, yAxis) {
           const chartData = [];

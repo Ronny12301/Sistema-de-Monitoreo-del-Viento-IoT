@@ -54,7 +54,7 @@ app.get('/day-table', async (req, res) => {
     const messages = await getMessagesWhere(query);
 
     res.send( await view('day-table', {
-        messages: messages,
+        messages: messages.data,
     }));
 });
 
