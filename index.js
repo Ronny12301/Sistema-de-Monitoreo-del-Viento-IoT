@@ -37,7 +37,7 @@ app.get('/day', async (req, res) => {
      const msg = await getMessagesWhere(query);
  
      res.send( await view('day', {
-        messages: msg.data,
+        day: req.query.created_at,
     }));
 });
 
