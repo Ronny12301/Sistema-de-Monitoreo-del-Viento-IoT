@@ -11,7 +11,7 @@
 </head>
 
 <body class="bg-slate-50 dark:bg-gray-900 dark:text-white">
-    <my-navbar><div id="title">No se han encontrado datos</div></my-navbar>  
+    <my-navbar><div id="title">Cargando...</div></my-navbar>  
 
     <div class="flex justify-center">
       <a  href="#" id="focus-input"
@@ -258,6 +258,20 @@
                 window.location.href = `/day?created_at=${formattedDate}`;
             }
         });
+      </script>
+
+      <script>
+        async function getDayMessages(day) {
+          try {
+            const response = await fetch(`/day?created_at=${day}`); 
+            const messages = await response.json();
+            
+            return messages = messages.data;
+          }
+          catch (err) {
+            
+          }
+        }
       </script>
 </body>
 </html>

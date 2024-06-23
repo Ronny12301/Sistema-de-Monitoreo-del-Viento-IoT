@@ -24,21 +24,12 @@ app.get('/archive', async (req, res) => {
     res.send( await view('archive') );
 });
 
-app.get('/day', async (req, res) => {
-     const dates = getStartAndEndOfDayToUTC(req.query.created_at);
+app.get('/day', async (req, res) => { 
 
-     const query = {
-         created_at: {
-                gte: dates.startOfDay,
-                lt: dates.endOfDay,
-         }
-     };
-
-     const msg = await getMessagesWhere(query);
- 
      res.send( await view('day', {
         day: req.query.created_at,
     }));
+    
 });
 
 app.get('/day-table', async (req, res) => {
