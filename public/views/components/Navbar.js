@@ -26,7 +26,7 @@ class Navbar extends HTMLElement {
                 ${this.home}
                 ${this.btnDarkMode}
 
-                <h1 class="flex justify-center text-2xl sm:text-3xl font-bold">
+                <h1 class="flex justify-center text-2xl sm:text-3xl font-bold" id="my-navbar-text">
                     ${this.innerText}
                 </h1>
             </div>        

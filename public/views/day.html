@@ -17,7 +17,7 @@
 </head>
 
 <body class="bg-slate-50 dark:bg-gray-900 dark:text-white">
-  <my-navbar><div id="title">Cargando...</div></my-navbar>  
+  <my-navbar>Cargando...</my-navbar>  
 
   <div class="flex justify-center">
     <a  href="#" id="focus-input"
@@ -96,6 +96,8 @@
     
     document.addEventListener('DOMContentLoaded', async () => {
       messages = await fetchMessages(day);
+
+      if (!messages) return;
 
       const chartLine = document.getElementById('chart-line');
       const chartPolar = document.getElementById('chart-polar');
@@ -238,7 +240,19 @@
       return chartData;
     }
 
-    document.querySelector('#title').textContent = "Datos del día " + getUTCdate(day);
+    const timer = setInterval(() => {
+      try {
+        if (messages === false) {
+          document.getElementById("my-navbar-text").innerHTML = "No se encontraron datos";
+          clearInterval(timer);
+        } else if (messages.length > 0) {
+          document.getElementById("my-navbar-text").innerHTML = "Datos del día " + getUTCdate(day);
+          clearInterval(timer);
+        }
+      } catch (e) {
+        console.error(e)
+      }
+    }, 1000);
   </script>
 
   <script>
@@ -271,7 +285,7 @@
         const response = await fetch(`/day-data?created_at=${day}`); 
         const messages = await response.json();
         
-        return messages.data;
+        return messages.data.length !== 0 ? messages.data : false;
       }
       catch (err) {
         return false;
