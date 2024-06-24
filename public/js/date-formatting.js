@@ -11,3 +11,11 @@ function getISODate(date) {
 
     return fullDate;
 }
+
+function getUTCdate(date) {
+    const dateObj = new Date(date);
+
+    return dateObj.getUTCDate()
+      + "/" + (dateObj.getUTCMonth() + 1)
+      + "/" + dateObj.getUTCFullYear();
+}
